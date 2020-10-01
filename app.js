@@ -24,7 +24,7 @@ db.authenticate().then(() => {
 
 //Main route
 app.get('/', (req, res, next) => {
-  res.send('Hello World');
+  res.redirect('/wiki');
 });
 
 app.get('/views/layout', (req, res, next) => {
