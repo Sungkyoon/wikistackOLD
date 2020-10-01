@@ -5,6 +5,9 @@ const path = require('path');
 const app = express();
 const { db, Page, User } = require('./models');
 const bodyParser = require('body-parser');
+const router = express.Router();
+const wiki = require('./routes/wiki');
+const users = require('./routes/users');
 
 const staticMiddleware = express.static(path.join(__dirname, './public'));
 
@@ -12,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(staticMiddleware);
 app.use(morgan('dev'));
+app.use('/wiki', wiki);
 
 //Check if database is connected
 db.authenticate().then(() => {
@@ -29,7 +33,7 @@ app.get('/views/layout', (req, res, next) => {
 
 //Sync dbs and start server on port 1337
 const initializeServer = async () => {
-  const page = Page.build()
+  const page = Page.build();
   await db.sync();
 
   app.listen(1337, () => {
